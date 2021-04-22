@@ -17,7 +17,7 @@ qsplatform
 
 - 验证
   - [ ] session / cookie /jwt
-  - [ ] auth2.0
+  - [ ] OAuth2.0
  
 - 安全
   - [ ] xss
@@ -31,20 +31,23 @@ qsplatform
   - [ ] redis
   - [ ] postgresql 
   - [ ] 数据库主从备份
+  - [ ] join,索引,分区分页,事务 
+  - [ ] orm框架
   
 - 负载均衡
- - [ ] https配置
- - [ ] 多域名配置
- - [ ] 请求速率限制
- - [ ] 上传文件大小限制
- - [ ] keepalive时间限制
- - [ ] ip黑明单/白名单
+  - [ ] https配置
+  - [ ] 多域名配置
+  - [ ] 请求速率限制
+  - [ ] 上传文件大小限制
+  - [ ] keepalive时间限制
+  - [ ] ip黑明单/白名单
  
 - 其他
- - [ ] 实例保活/关机
- - [ ] 邮件通知
- - [ ] 文件加密同步
- - [ ] 服务器性能监控
- - [ ] docker运维部署
- - [ ] 微服务
- - [ ] 消息队列RabbitMQ Kafka
+  - [ ] 实例保活/关机
+  - [ ] 邮件通知
+  - [ ] 文件加密同步
+  - [ ] 性能监控Linux Dash
+  - [ ] docker运维部署
+  - [ ] 消息队列RabbitMQ Kafka
+  - [ ] github的ci/cd
+  - [ ] 日志记录和保存时间
