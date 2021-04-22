@@ -13,7 +13,7 @@ qsplatform
   - [ ] post multipart/form-data
   - [ ] post application/octet-stream
   - [ ] websocket wss 
-
+  - [ ] error code
 
 - 验证
   - [ ] session / cookie /jwt
