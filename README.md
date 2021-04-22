@@ -5,7 +5,7 @@ qsplatform
 - rust web 项目 
 
   - [x] yaml配置
-  - [ ]  json序列化
+  - [ ] json序列化
 
 - restful 相关
   - [ ] get  application/json
@@ -34,6 +34,8 @@ qsplatform
   - [ ] join,索引,分区分页,事务 
   - [ ] orm框架
   
+- 定时任务
+  
 - 负载均衡
   - [ ] https配置
   - [ ] 多域名配置
@@ -51,3 +53,4 @@ qsplatform
   - [ ] 消息队列RabbitMQ Kafka
   - [ ] github的ci/cd
   - [ ] 日志记录和保存时间
+  - [ ] unix时钟
