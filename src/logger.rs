@@ -1,14 +1,15 @@
 
 #[derive(Debug)]
 struct QSLogger;
-use crate::config::{LogLevel, Config};
+use crate::config::LogLevel;
 use log;
-use log::{debug, Metadata, Record};
+use log::Record;
 use yansi::Paint;
 use std::time::SystemTime;
 use chrono::{DateTime, Utc};
+
 pub(crate) fn init()  {
-    log::set_boxed_logger(Box::new(QSLogger))
+   let _ = log::set_boxed_logger(Box::new(QSLogger))
       .map(|()| log::set_max_level(LogLevel::Debug.to_level_filter()));
 }
 
@@ -28,15 +29,15 @@ impl log::Log for QSLogger {
         match record.level() {
             log::Level::Error => {
                 let result:String =  format!(">>> Error | {} | {:?}",now,record.args());
-                println!("{}",Paint::red((result)).bold());
+                println!("{}",Paint::red(result).bold());
             },
             log::Level::Warn => {
                 let result:String =  format!(">>> Warn  | {} | {:?}",now,record.args());
-                println!("{}",Paint::yellow((result)).bold());
+                println!("{}",Paint::yellow(result).bold());
             }
             log::Level::Info =>{
                 let result:String =  format!(">>> Info  | {} | {:?}",now,record.args());
-                println!("{}",Paint::green((result)).bold());
+                println!("{}",Paint::green(result).bold());
             },
             log::Level::Debug =>{
                 let result:String =  format!(">>> Debug | {} | {:?}",now,record.args());
@@ -44,7 +45,7 @@ impl log::Log for QSLogger {
             },
             log::Level::Trace => {
                 let result:String =  format!(">>> Trace | {} | {:?}",now,record.args());
-                println!("{}",Paint::red((result)).bold());
+                println!("{}",Paint::red(result).bold());
             }
         }
     }

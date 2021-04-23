@@ -1,7 +1,8 @@
-
 use serde::{Deserialize, Serialize};
-use tokio::fs::File;
-use log::LevelFilter;
+use log::debug;
+use std::path::Path;
+use std::fs::File;
+
 #[derive(Eq, Debug, Clone, PartialEq, Deserialize, Serialize)]
 pub(crate) struct Config {
     pub(crate) conf: Conf,
@@ -33,15 +34,16 @@ pub(crate)  enum LogLevel {
 }
 
 impl LogLevel {
-    pub fn as_str(&self) -> &str {
-        match self {
-            LogLevel::Warn => "Warn",
-            LogLevel::Info => "Info",
-            LogLevel::Debug => "Debug",
-            LogLevel::Error => "Error",
-            LogLevel::Critical => "Critical",
-        }
-    }
+
+    // pub fn as_str(&self) -> &str {
+    //     match self {
+    //         LogLevel::Warn => "Warn",
+    //         LogLevel::Info => "Info",
+    //         LogLevel::Debug => "Debug",
+    //         LogLevel::Error => "Error",
+    //         LogLevel::Critical => "Critical",
+    //     }
+    // }
 
     #[inline(always)]
     pub fn to_level_filter(self) -> log::LevelFilter {
@@ -55,36 +57,28 @@ impl LogLevel {
     }
 }
 
-impl Config {
-    pub(crate) const ENABLE_CLI_COLOR: bool = true;
-    pub(crate) const ENABLE_LOG: bool = true;
+impl From<String> for Config {
+    fn from(file_path: String) -> Self {
+        let path = Path::new(&file_path);
+        if !path.is_file() {
+          return   Config::default()
+        }
+        let file = File::open(path);
+        if let Ok(fi) = file {
+            let d: Result<Config, serde_yaml::Error> = serde_yaml::from_reader(fi);
+            match d {
+                Ok(c) => {
+                    if c.conf.addr.len() != 0 && c.conf.port != 0 {
+                        return  c
+                    }
+                },
+                Err(e) => debug!("{}", e),
+            }
+        }
+       Config::default()
 
+    }
 }
-// let f = std::fs::File::open("./config.yaml").expect("file open err");
-// let d: Config = serde_yaml::from_reader(f).expect("yaml error");
-// debug!("Read YAML string: {:?}", d.log.level);
-// impl From<String> for Config {
-//     fn from(file_path: String) -> Self {
-//
-//         let do_steps = || -> Result<Config, MyError> {
-//             let mut file = File::open(file_path)?;
-//             //try yaml
-//             let d: Config = serde_yaml::from_reader(file)?;
-//             if d.conf.addr.len() != 0 && d.conf.port != 0 {
-//                 Ok(d)
-//             }
-//             Ok(Config::default())
-//         };
-//
-//         if let Err(_err) = do_steps() {
-//             println!("Failed to perform necessary steps");
-//         }
-//
-//
-//
-//         Config::default()
-//     }
-// }
 
 impl Default for Config {
     fn default() -> Self {
@@ -131,4 +125,10 @@ fn  test_model() {
     assert_eq!(LogLevel::Error, model.log.level);
     assert_eq!(true, model.log.console);
     assert_eq!(false, model.log.disk);
+    let conf = Config::from(String::from("config.yaml"));
+    assert_eq!(conf.conf.port,6000);
+    let conf = Config::from(String::from("xxxxx"));
+    assert_eq!(conf.conf.port,3000);
+
+
 }

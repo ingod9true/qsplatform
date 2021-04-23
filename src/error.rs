@@ -50,7 +50,7 @@ impl fmt::Debug for Error {
 }
 
 impl fmt::Display for ErrorKind {
-    #[inline]
+
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             ErrorKind::Bind(e) => write!(f, "binding failed: {}", e),
@@ -70,4 +70,11 @@ impl Drop for Error {
             ErrorKind::Runtime(ref e) => {println!("{:?}",e)}
         }
     }
+}
+
+#[test]
+fn xx(){
+    println!("{}",ErrorKind::Bind(io::Error::from(io::ErrorKind::Other)));
+    println!("{}",ErrorKind::Io(io::Error::from(io::ErrorKind::Other)));
+    println!("{}",ErrorKind::Runtime(Box::new(io::Error::from(io::ErrorKind::Other))));
 }

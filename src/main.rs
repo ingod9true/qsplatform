@@ -2,14 +2,14 @@
 pub(crate) mod config;
 pub(crate) mod error;
 pub(crate) mod logger;
-use log::{debug,error,info,warn};
-use serde_yaml;
-use crate::config::*;
+pub(crate) mod modules;
+
+use log::{debug,info};
+
 use std::convert::{Infallible};
 use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Request, Response, Server, StatusCode, Method};
 
-use yansi::{Paint, Color, Style};
 
 type GenericError = Box<dyn std::error::Error + Send + Sync>;
 type Result<T> = std::result::Result<T, GenericError>;
@@ -33,12 +33,8 @@ async fn dispatch(request: Request<Body>) ->Result<Response<Body>> {
 
 #[tokio::main]
 pub async fn main() -> Result<()> {
-
     logger::init();
-    error!("qsplatform app luanch!!!");
     debug!("qsplatform app luanch!!!");
-    info!("qsplatform app luanch!!!");
-    warn!("qsplatform app luanch!!!");
 
     let make_svc = make_service_fn(|_conn| {
         async { Ok::<_, Infallible>(service_fn(dispatch)) }
